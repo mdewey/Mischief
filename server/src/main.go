@@ -14,4 +14,5 @@ func main() {
 	fmt.Println(user)
 
 	AddGame("New Game", 43.2, 54.5)
+	GetAllGames()
 }

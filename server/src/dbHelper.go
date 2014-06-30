@@ -43,6 +43,21 @@ func AddGame(name string, lat float64, lon float64) {
 	node.AddLabel("Game")
 }
 
+func GetAllGames(){
+	db, _ := neoism.Connect(connectionString)
+	result := []struct {
+		N neoism.Node // Column "n" gets automagically unmarshalled into field N
+	}{}
+	query := neoism.CypherQuery{
+		Statement: `
+			MATCH (n:Game)
+			RETURN n`,
+		Result:     &result,
+	}
+	db.Cypher(&query)
+	fmt.Println(result)
+}
+
 func GetUser(username string) User {
 	db, _ := neoism.Connect(connectionString)
 	result := []struct {
