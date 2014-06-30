@@ -59,8 +59,7 @@ func GetAllGames() *list.List {
 	db.Cypher(&query)
 	rv := list.New()
 	for _, element := range result {
-		//TODO: turn this into a game
-		rv.PushFront(element.N.Data)
+		rv.PushFront(Game{element.N.Data["name"].(string), element.N.Data["latitude"].(float64), element.N.Data["longitude"].(float64), element.N.Data["isActive"].(bool),element.N.Data["Id"].(string)})
 	}
 	return rv
 }

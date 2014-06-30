@@ -14,9 +14,9 @@ func main() {
 	// user := GetUser(userName)
 	// fmt.Println(user)
 	//AddGame("New Game 2", 43.2, 54.5)
-	//all := GetAllGames()
-	//fmt.Println(all)
-	//PrintOutList(all)
+	all := GetAllGames()
+	fmt.Println(all)
+	PrintOutList(all)
 
 	game := GetGame("some guid here")
 	fmt.Println(game)
