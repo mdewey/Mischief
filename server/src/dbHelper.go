@@ -3,17 +3,25 @@ package main
 import (
 	//"fmt"
 	"github.com/jmcvetta/neoism"
+	//"code.google.com/p/go-uuid/uuid"
 )
 
 const connectionString = "http://localhost:7474/db/data"
 
-type User struct{
-	name string
-	userName string
-	latitude float64
-	longitude float64
+type User struct {
+	name        string
+	userName    string
+	latitude    float64
+	longitude   float64
 	totalPoints int
-	isActive bool
+	isActive    bool
+}
+
+type Game struct {
+	name      string
+	latitude  float64
+	longitude float64
+	isActive  bool
 }
 
 func AddUser(username string, name string, lat float64, lon float64) {
@@ -27,7 +35,15 @@ func AddUser(username string, name string, lat float64, lon float64) {
 	//fmt.Println(node)
 }
 
-func GetUser(username string) User{
+func AddGame(name string, lat float64, lon float64) {
+
+	db, _ := neoism.Connect(connectionString)
+	// fmt.Println(db)
+	node, _ := db.CreateNode(neoism.Props{"name": name, "latitude": lat, "longitude": lon, "Id": "some guid here", "isActive": true})
+	node.AddLabel("Game")
+}
+
+func GetUser(username string) User {
 	db, _ := neoism.Connect(connectionString)
 	result := []struct {
 		N neoism.Node // Column "n" gets automagically unmarshalled into field N
@@ -41,7 +57,7 @@ func GetUser(username string) User{
 		Result:     &result,
 	}
 	db.Cypher(&query)
-	rv := User{result[0].N.Data["name"].(string),result[0].N.Data["userName"].(string),result[0].N.Data["latitude"].(float64),result[0].N.Data["longitude"].(float64),int(result[0].N.Data["totalPoints"].(float64)),result[0].N.Data["isActive"].(bool)}
-	//fmt.Println(rv)	
+	rv := User{result[0].N.Data["name"].(string), result[0].N.Data["userName"].(string), result[0].N.Data["latitude"].(float64), result[0].N.Data["longitude"].(float64), int(result[0].N.Data["totalPoints"].(float64)), result[0].N.Data["isActive"].(bool)}
+	//fmt.Println(rv)
 	return rv
 }
