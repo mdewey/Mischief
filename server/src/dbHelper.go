@@ -5,31 +5,33 @@ import (
 	"github.com/jmcvetta/neoism"
 )
 
-var db Database
-
-func ConnectToDb(){
-	db, _ := neoism.Connect("http://localhost:7474/db/data")
-}
+const connectionString = "http://localhost:7474/db/data"
 
 func AddUser(username string, name string, lat float64, lon float64) {
 
-	ConnectToDb()
-	// fmt.Println(db)	
-	node, _  := db.CreateNode(neoism.Props{"name":name, "username":username, "latitude":lat, "longitude": lon})
+	db, _ := neoism.Connect(connectionString)
+	// fmt.Println(db)
+	node, _ := db.CreateNode(neoism.Props{"name": name, "userName": username, "latitude": lat, "longitude": lon, "totalPoints": 0, "isActive": true})
 	node.AddLabel("User")
-	
+
 	//node.Delete()
-	fmt.Println(node)
+	//fmt.Println(node)
 }
 
-func GetUser(username string){
-	ConnectToDb()
+func GetUser(username string) {
+	db, _ := neoism.Connect(connectionString)
+	rv := []struct {
+		N neoism.Node // Column "n" gets automagically unmarshalled into field N
+	}{}
 	query := neoism.CypherQuery{
 		Statement: `
-			MATCH (n:Person)
-			WHERE n.username = {uname}
+			MATCH (n:User)
+			WHERE n.userName = {userName}
 			RETURN n`,
-		Parameters: neoism.Props{"uname":username}	
+		Parameters: neoism.Props{"userName": username},
+		Result:     &rv,
 	}
-
+	db.Cypher(&query)
+	fmt.Println(rv[0].N.Data["userName"])
+	//return rv
 }
