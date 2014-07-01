@@ -1,8 +1,8 @@
 package main
 
 import (
-	"container/list"
-	"fmt"
+	// "container/list"
+	// "fmt"
 
 // "github.com/jmcvetta/neoism"
 )
@@ -16,19 +16,19 @@ func main() {
 	DeleteAllGames()
 	AddGame("New Game 2", 43.2, 54.5)
 	all := GetAllGames()
-	fmt.Println(all)
+	//fmt.Println(all)
 	PrintOutList(all)
 
-	game := GetGame("some guid here")
-	fmt.Println(game)
+	// game := GetGame("some guid here")
+	// fmt.Println(game)
 
 }
 
-func PrintOutList(l *list.List) {
-	if l.Len() > 0 {
-		for e := l.Front(); e != nil; e = e.Next() {
-			fmt.Println(e)
-		}
-	}
+// func PrintOutList(l *list.List) {
+// 	if l.Len() > 0 {
+// 		for e := l.Front(); e != nil; e = e.Next() {
+// 			fmt.Println(e)
+// 		}
+// 	}
 
-}
+// }

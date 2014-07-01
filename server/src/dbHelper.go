@@ -7,6 +7,7 @@ import (
 	"github.com/nu7hatch/gouuid"
 	"math/rand"
 	"strings"
+	"time"
 )
 
 const connectionString = "http://localhost:7474/db/data"
@@ -44,21 +45,24 @@ func AddGame(name string, lat float64, lon float64) {
 
 	db, _ := neoism.Connect(connectionString)
 	newId, _ := uuid.NewV4()
-	fmt.Println(newId)
-	//genCode()
-	node, _ := db.CreateNode(neoism.Props{"name": name, "latitude": lat, "longitude": lon, "Id": newId.String(), "isActive": true, "code": "ABCD"})
+	code := genCode()
+	node, _ := db.CreateNode(neoism.Props{"name": name, "latitude": lat, "longitude": lon, "Id": newId.String(), "isActive": true, "code": code})
 	node.AddLabel("Game")
 
 }
 
-func genCode() {
+func genCode() string {
 	chars := strings.Split("A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0", ",")
-	code := list.New()
-	for i := 0; i < 7; i++ {
+	code := ""
+	rand.Seed(time.Now().UnixNano())
+	for i := 0; i < 7; i++ {		
 		pos := rand.Intn(len(chars))
-		code.PushFront(chars[pos])
+		fmt.Println(pos)
+		code += chars[pos]
 	}
-	fmt.Println(code)
+	// PrintOutList(code)
+	//TODO: check to see if code exists and handle no unique ones.
+	return code
 }
 
 func GetAllGames() *list.List {
@@ -128,5 +132,15 @@ func DeleteAllGames() {
 			DELETE n`,
 	}
 	db.Cypher(&query)
+
+}
+
+
+func PrintOutList(l *list.List) {
+	if l.Len() > 0 {
+		for e := l.Front(); e != nil; e = e.Next() {
+			fmt.Println(e)
+		}
+	}
 
 }
