@@ -30,6 +30,8 @@ type Game struct {
 	code      string
 }
 
+const playingRelationship = "is playing"
+
 func AddUser(username string, name string, lat float64, lon float64) {
 
 	db, _ := neoism.Connect(connectionString)
@@ -103,6 +105,27 @@ func GetGame(id string) Game {
 	return rv
 }
 
+func GetGame(code string) Game {
+	db, _ := neoism.Connect(connectionString)
+	result := []struct {
+		N neoism.Node // Column "n" gets automagically unmarshalled into field N
+	}{}
+	query := neoism.CypherQuery{
+		Statement: `
+			MATCH (n:Game)
+			WHERE n.code = {thisCode}
+			RETURN n`,
+		Parameters: neoism.Props{"thisCode": code},
+		Result:     &result,
+	}
+	db.Cypher(&query)
+	var rv Game
+	if len(result) > 0 {
+		rv = Game{result[0].N.Data["name"].(string), result[0].N.Data["latitude"].(float64), result[0].N.Data["longitude"].(float64), result[0].N.Data["isActive"].(bool), result[0].N.Data["Id"].(string), result[0].N.Data["code"].(string)}
+	}
+	return rv
+}
+
 func GetUser(username string) User {
 	db, _ := neoism.Connect(connectionString)
 	result := []struct {
@@ -143,4 +166,11 @@ func PrintOutList(l *list.List) {
 func JoinGame(username, gameCode string) {
 	fmt.Println(username)
 	fmt.Println(gameCode)
+	// get user
+	user := GetUser(username)
+	// get game
+	game := GetGame(id)
+	// create relationship
+	fmt.Println(user)
+	fmt.Println(game)
 }
