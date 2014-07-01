@@ -84,7 +84,7 @@ func GetAllGames() *list.List {
 	return rv
 }
 
-func GetGame(id string) Game {
+func GetGameById(id string) Game {
 	db, _ := neoism.Connect(connectionString)
 	result := []struct {
 		N neoism.Node // Column "n" gets automagically unmarshalled into field N
@@ -105,7 +105,7 @@ func GetGame(id string) Game {
 	return rv
 }
 
-func GetGame(code string) Game {
+func GetGameByCode(code string) Game {
 	db, _ := neoism.Connect(connectionString)
 	result := []struct {
 		N neoism.Node // Column "n" gets automagically unmarshalled into field N
@@ -169,7 +169,7 @@ func JoinGame(username, gameCode string) {
 	// get user
 	user := GetUser(username)
 	// get game
-	game := GetGame(id)
+	game := GetGameByCode(gameCode)
 	// create relationship
 	fmt.Println(user)
 	fmt.Println(game)

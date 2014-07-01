@@ -1,8 +1,8 @@
 package main
 
 import (
-	// "container/list"
-	"fmt"
+// "container/list"
+//"fmt"
 
 // "github.com/jmcvetta/neoism"
 )
@@ -10,7 +10,7 @@ import (
 func main() {
 	userName := "tester1"
 
-	AddUser(userName, "full naming", 44.4, 55.5)
+	//AddUser(userName, "full naming", 44.4, 55.5)
 	// user := GetUser(userName)
 	// fmt.Println(user)
 	//DeleteAllGames()
