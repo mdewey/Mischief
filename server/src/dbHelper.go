@@ -48,16 +48,14 @@ func AddGame(name string, lat float64, lon float64) {
 	code := genCode()
 	node, _ := db.CreateNode(neoism.Props{"name": name, "latitude": lat, "longitude": lon, "Id": newId.String(), "isActive": true, "code": code})
 	node.AddLabel("Game")
-
 }
 
 func genCode() string {
 	chars := strings.Split("A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,1,2,3,4,5,6,7,8,9,0", ",")
 	code := ""
 	rand.Seed(time.Now().UnixNano())
-	for i := 0; i < 7; i++ {		
+	for i := 0; i < 7; i++ {
 		pos := rand.Intn(len(chars))
-		fmt.Println(pos)
 		code += chars[pos]
 	}
 	// PrintOutList(code)
@@ -101,7 +99,7 @@ func GetGame(id string) Game {
 	var rv Game
 	if len(result) > 0 {
 		rv = Game{result[0].N.Data["name"].(string), result[0].N.Data["latitude"].(float64), result[0].N.Data["longitude"].(float64), result[0].N.Data["isActive"].(bool), result[0].N.Data["Id"].(string), result[0].N.Data["code"].(string)}
-	}	
+	}
 	return rv
 }
 
@@ -132,9 +130,7 @@ func DeleteAllGames() {
 			DELETE n`,
 	}
 	db.Cypher(&query)
-
 }
-
 
 func PrintOutList(l *list.List) {
 	if l.Len() > 0 {
@@ -142,5 +138,9 @@ func PrintOutList(l *list.List) {
 			fmt.Println(e)
 		}
 	}
+}
 
+func JoinGame(username, gameCode string) {
+	fmt.Println(username)
+	fmt.Println(gameCode)
 }

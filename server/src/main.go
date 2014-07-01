@@ -2,22 +2,28 @@ package main
 
 import (
 	// "container/list"
-	// "fmt"
+	"fmt"
 
 // "github.com/jmcvetta/neoism"
 )
 
 func main() {
-	//	userName := "userNaming4"
+	userName := "tester1"
 
-	//AddUser(userName, "full naming", 44.4, 55.5)
+	AddUser(userName, "full naming", 44.4, 55.5)
 	// user := GetUser(userName)
 	// fmt.Println(user)
-	DeleteAllGames()
-	AddGame("New Game 2", 43.2, 54.5)
+	//DeleteAllGames()
+	AddGame("Test Game 1", 43.2, 54.5)
 	all := GetAllGames()
 	//fmt.Println(all)
-	PrintOutList(all)
+	//PrintOutList(all)
+
+	// the first game
+	firstGame := all.Front().Value.(Game)
+	// fmt.Println(firstGame)
+	// add user to game here
+	JoinGame(userName, firstGame.code)
 
 	// game := GetGame("some guid here")
 	// fmt.Println(game)
