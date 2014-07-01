@@ -13,7 +13,8 @@ func main() {
 	//AddUser(userName, "full naming", 44.4, 55.5)
 	// user := GetUser(userName)
 	// fmt.Println(user)
-	//AddGame("New Game 2", 43.2, 54.5)
+	DeleteAllGames()
+	AddGame("New Game 2", 43.2, 54.5)
 	all := GetAllGames()
 	fmt.Println(all)
 	PrintOutList(all)
@@ -24,7 +25,10 @@ func main() {
 }
 
 func PrintOutList(l *list.List) {
-	for e := l.Front(); e != nil; e = e.Next() {
-		fmt.Println(e)
+	if l.Len() > 0 {
+		for e := l.Front(); e != nil; e = e.Next() {
+			fmt.Println(e)
+		}
 	}
+
 }
